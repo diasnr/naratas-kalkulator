@@ -1,11 +1,12 @@
-Kalkulator Seller NRT HOME
+# 📊 Kalkulator Seller NRT HOME
 
 Kalkulator Seller NRT HOME adalah alat bantu berbasis web yang dirancang untuk membantu penjual online menghitung keuntungan, biaya, dan harga jual secara cepat, mudah, dan jelas.
 
 Alat ini cocok digunakan oleh seller TikTok Shop, marketplace, maupun pelaku bisnis online lainnya.
 
 ---
-Tujuan
+
+## 🎯 Tujuan
 
 Kalkulator ini dibuat untuk membantu seller:
 - Mengetahui untung atau rugi sebelum menjual produk
@@ -15,7 +16,7 @@ Kalkulator ini dibuat untuk membantu seller:
 
 ---
 
-Fitur Perhitungan
+## 🧮 Fitur Perhitungan
 
 Kalkulator ini dapat menghitung:
 - Harga jual setelah diskon
@@ -29,7 +30,7 @@ Semua hasil ditampilkan secara otomatis setelah tombol **Hitung** ditekan.
 
 ---
 
-Cara Menggunakan
+## 🖥️ Cara Menggunakan
 
 1. Buka halaman kalkulator melalui browser
 2. Masukkan data:
@@ -47,7 +48,7 @@ Tidak perlu login dan tidak perlu instal aplikasi.
 
 ---
 
- Perangkat yang Didukung
+## 📱 Perangkat yang Didukung
 
 - HP Android
 - Laptop / PC
@@ -57,7 +58,7 @@ Dapat digunakan di browser modern seperti Chrome, Edge, dan lainnya.
 
 ---
 
-Manfaat untuk Seller
+## 💡 Manfaat untuk Seller
 
 - Membantu pengambilan keputusan harga
 - Mengurangi risiko kerugian
@@ -66,7 +67,7 @@ Manfaat untuk Seller
 
 ---
 
-Catatan Penting
+## ⚠️ Catatan Penting
 
 Hasil perhitungan bersifat simulasi dan dapat berbeda tergantung:
 - Kebijakan platform
@@ -76,6 +77,7 @@ Hasil perhitungan bersifat simulasi dan dapat berbeda tergantung:
 Gunakan kalkulator ini sebagai alat bantu perencanaan, bukan sebagai keputusan final mutlak.
 
 ---
-Tentang NRT HOME
+
+## 🏷️ Tentang NRT HOME
 
 Kalkulator ini dibuat sebagai alat bantu internal dan pendukung aktivitas bisnis NRT HOME agar pengelolaan harga dan keuntungan menjadi lebih terukur dan profesional.
