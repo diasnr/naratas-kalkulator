@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Seller iOS</title>
+
+<style>
+:root{
+  --radius:22px;
+  --glass-light:rgba(255,255,255,.55);
+  --glass-dark:rgba(20,20,20,.55);
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",
+  "Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:#000;
+  overflow-y:auto; /* ✅ SCROLL HIDUP */
+}
+
+/* ===== BACKGROUND ===== */
+.bg{
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  overflow:hidden;
+}
+.blur{
+  position:absolute;
+  width:420px;
+  height:420px;
+  border-radius:50%;
+  filter:blur(80px);
+  opacity:.9;
+  animation:float 14s infinite alternate;
+}
+.light .b1{background:#60a5fa;top:10%;left:10%}
+.light .b2{background:#f472b6;top:60%;left:20%}
+.light .b3{background:#a78bfa;top:30%;right:10%}
+.dark .b1{background:#020617;top:15%;left:15%}
+.dark .b2{background:#020617;top:65%;left:25%}
+.dark .b3{background:#020617;top:35%;right:15%}
+
+@keyframes float{
+  from{transform:translateY(0)}
+  to{transform:translateY(-80px)}
+}
+
+/* ===== WRAPPER ===== */
+.wrapper{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding:20px;
+}
+
+/* ===== CARD ===== */
+.container{
+  position:relative;
+  width:100%;
+  max-width:420px;
+  padding:22px;
+  border-radius:var(--radius);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  box-shadow:0 35px 70px rgba(0,0,0,.35);
+  margin-bottom:40px;
+}
+.light .container{
+  background:var(--glass-light);
+  color:#111;
+  border:1px solid rgba(255,255,255,.4);
+}
+.dark .container{
+  background:var(--glass-dark);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.15);
+}
+
+/* ===== TOGGLE ===== */
+.toggle{
+  position:absolute;
+  top:14px;
+  right:14px;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  background:rgba(255,255,255,.35);
+  backdrop-filter:blur(10px);
+}
+
+/* ===== FORM ===== */
+h2{
+  text-align:center;
+  font-size:22px;
+  font-weight:600;
+  margin-bottom:18px;
+}
+label{
+  font-size:13px;
+  font-weight:500;
+  margin-top:14px;
+  display:block;
+}
+input,select{
+  width:100%;
+  margin-top:6px;
+  padding:14px 16px;
+  font-size:15px;
+  border-radius:14px;
+  border:none;
+  outline:none;
+}
+.light input,.light select{background:rgba(255,255,255,.9)}
+.dark input,.dark select{background:rgba(30,30,30,.9);color:#fff}
+
+.btn{
+  width:100%;
+  margin-top:18px;
+  padding:15px;
+  font-size:16px;
+  font-weight:600;
+  border-radius:16px;
+  border:none;
+  background:#007aff;
+  color:#fff;
+}
+
+.result{
+  margin-top:20px;
+  padding:16px;
+  border-radius:16px;
+  background:rgba(255,255,255,.7);
+}
+.dark .result{background:rgba(30,30,30,.7)}
+
+.profit{color:#22c55e;font-weight:600}
+.loss{color:#ef4444;font-weight:600}
+.small{font-size:12px;opacity:.8}
+
+hr{border:none;border-top:1px solid rgba(0,0,0,.15);margin:12px 0}
+.dark hr{border-top:1px solid rgba(255,255,255,.2)}
+</style>
+</head>
+
+<body class="light">
+
+<div class="bg">
+  <div class="blur b1"></div>
+  <div class="blur b2"></div>
+  <div class="blur b3"></div>
+</div>
+
+<div class="wrapper">
+<div class="container">
+<div class="toggle" onclick="toggleMode()">🌙</div>
+
+<h2>Kalkulator Seller<br>NRT HOME</h2>
+
+<form onsubmit="hitung();return false;">
+<label>Harga Supplier</label>
+<input id="modal" inputmode="numeric" placeholder="Rp ">
+
+<label>Harga Jual</label>
+<input id="harga" inputmode="numeric" placeholder="Rp ">
+
+<label>Diskon Produk (%)</label>
+<input id="diskon" type="number" value="0">
+
+<label>Komisi Platform (%)</label>
+<input id="kp" type="number" value="7.5">
+
+<label>Komisi Dinamis (%)</label>
+<input id="kd" type="number" value="4">
+
+<label>Biaya Proses Pesanan</label>
+<input id="bp" inputmode="numeric" value="1250">
+
+<label>Xtra Boost Program</label>
+<select id="xtra">
+  <option value="0">OFF</option>
+  <option value="1817">ON</option>
+</select>
+
+<button class="btn">Hitung</button>
+</form>
+
+<div class="result" id="hasil"></div>
+</div>
+</div>
+
+<script>
+const body=document.body;
+const toggle=document.querySelector(".toggle");
+
+function toggleMode(){
+  body.classList.toggle("dark");
+  body.classList.toggle("light");
+  toggle.textContent=body.classList.contains("dark")?"☀️":"🌙";
+}
+
+function formatRupiah(el){
+  let a=el.value.replace(/\D/g,"");
+  el.value=a?"Rp "+Number(a).toLocaleString("id-ID"):"Rp ";
+}
+function getAngka(id){
+  return Number(document.getElementById(id).value.replace(/\D/g,""))||0;
+}
+function rupiah(n){return "Rp "+n.toLocaleString("id-ID");}
+
+function hitung(){
+  let modal=getAngka("modal"),
+      harga=getAngka("harga"),
+      diskon=Number(diskonEl.value)/100,
+      kp=Number(kpEl.value)/100,
+      kd=Number(kdEl.value)/100,
+      bp=getAngka("bp"),
+      xtra=Number(xtraEl.value);
+
+  if(!modal||!harga){
+    hasil.innerHTML="<span class='loss'>Modal & harga jual wajib diisi</span>";
+    return;
+  }
+
+  let hd=harga*(1-diskon),
+      biaya=hd*(kp+kd)+bp+xtra,
+      cair=hd-biaya,
+      profit=cair-modal,
+      bep=(modal+bp+xtra)/(1-(kp+kd)),
+      rekom=bep*1.1;
+
+  hasil.innerHTML=`
+  <p>Harga Setelah Diskon: <b>${rupiah(hd|0)}</b></p>
+  <p>Total Potongan: <b>${rupiah(biaya|0)}</b></p>
+  <p>Uang Cair: <b>${rupiah(cair|0)}</b></p>
+  <p>Hasil:
+    <span class="${profit>=0?'profit':'loss'}">
+    ${profit>=0?'UNTUNG':'RUGI'} ${rupiah(Math.abs(profit|0))}
+    </span>
+  </p>
+  <hr>
+  <p>BEP: <b>${rupiah(Math.ceil(bep))}</b></p>
+  <p>Harga Rekomendasi: <b>${rupiah(Math.ceil(rekom))}</b></p>
+  <p class="small">*Diskon dihitung sebelum komisi</p>`;
+}
+
+const diskonEl=diskon,
+      kpEl=kp,
+      kdEl=kd,
+      xtraEl=xtra;
+
+["modal","harga","bp"].forEach(id=>{
+  const el=document.getElementById(id);
+  el.addEventListener("input",()=>formatRupiah(el));
+});
+</script>
+
+</body>
+</html>
